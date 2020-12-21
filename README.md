@@ -1,62 +1,61 @@
-# webapp
+# Webapp-APIdocs
 
-## Environment setup
+## API简单编写流程
+   1. 通过浏览器访问swagger在线文档编辑器[https://editor.swagger.io/](https://editor.swagger.io/)（或使用本地swagger文档编辑器打开）。
+   2. 按照`yaml`编辑格式对API文档进行编写或修改。
+   3. 确认文档无误后，可以以多种方式导出这份文档（这里导出了源文件`swagger.yaml`和html2形式的`index.html`文件）。
 
-You need to have [Go](https://golang.org/),
-[Node.js](https://nodejs.org/),
-[Docker](https://www.docker.com/), and
-[Docker Compose](https://docs.docker.com/compose/)
-(comes pre-installed with Docker on Mac and Windows)
-installed on your computer.
+## API overview
+- `存放API的yaml文件`: swagger.yaml
+- `生成API的html形式`: index.html
+- 该API时按照`REST API v3`风格编写的关于一个简单购物车的实现。包括获取用户信息，上传商品信息、更新商品信息等API。
 
-Verify the tools by running the following commands:
+## API实例说明
 
-```sh
-go version
-npm --version
-docker --version
-docker-compose --version
+#### 获取所有用户信息
+``` bash
+GET /users
 ```
+##### Parameters
 
-If you are using Windows you will also need
-[gcc](https://gcc.gnu.org/). It comes installed
-on Mac and almost all Linux distributions.
+|Null|
+|---|
 
-## Start in development mode
+##### Responses
 
-In the project directory run the command (you might
-need to prepend it with `sudo` depending on your setup):
-```sh
-docker-compose -f docker-compose-dev.yml up
+|HTTP Code|Description|
+|---|---|
+|**200**|OK|
+
+
+#### Produces
+
+- `application/json`
+
+#### 上传一个商品信息
+``` bash
+POST /commodities
 ```
+##### Parameters
 
-This starts a local MongoDB on `localhost:27017`.
-The database will be populated with test records
-from the [init-db.js](init-db.js) file.
+|Type|Name|Description|
+|---|---|---|
+|**string**|**name**  <br>*required*|The name of new commodity|
+|**string**|**introduction**  <br>*required*|The introduction of new commodity|
+|**string**|**picture**  <br>*required*|The picture of new commodity|
+|**string**|**price**  <br>*required*|The price of new commodity|
 
-Navigate to the `server` folder and start the back end:
+##### Responses
 
-```sh
-cd server
-go run server.go
-```
-The back end will serve on http://localhost:8080.
+|HTTP Code|Description|
+|---|---|
+|**200**|OK|
 
-Navigate to the `webapp` folder, install dependencies,
-and start the front end development server by running:
+#### Produces
 
-```sh
-cd webapp
-npm install
-npm start
-```
-The application will be available on http://localhost:3000.
- 
-## Start in production mode
+- `application/json`
 
-Perform:
-```sh
-docker-compose up
-```
-This will build the application and start it together with
-its database. Access the application on http://localhost:8080.
+## APIRoot
+- 通过`GET /`可获取该API列表信息
+- 不支持分页
+

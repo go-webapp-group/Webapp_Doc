@@ -1,0 +1,298 @@
+swagger: "2.0"
+info:
+  description: "This is a simple API for Webapp"
+  version: "1.0.0"
+  title: "WebappAPI"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/v2"
+schemes:
+- "https"
+- "http"
+paths:
+
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Get all usersInfo"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+       "200":
+        description: "successful operation"
+        
+  /users/{username}:
+    get:
+      tags:
+      - "users"
+      summary: "Get a userinfo with username"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+       "200":
+        description: "successful operation"
+        
+  /users/register:
+    post:
+      tags:
+      - "users"
+      summary: "register a user with a userinfo"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The username for register"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for register"
+        required: true
+        type: "string"
+      - name: "balance"
+        in: "query"
+        description: "The balance for register"
+        required: true
+        type: "string"
+      responses:
+       "200":
+        description: "successful operation"
+        
+  /users/{username}/cart:
+    get:
+      tags:
+      - "users"
+      summary: "get the shopping cart of a user with username"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+    post:
+      tags:
+      - "users"
+      summary: "update the shopping cart of a user with username"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "cart"
+        in: "query"
+        description: "the shopping cart will be updated to database"
+        required: true
+        type: "model.Cart"
+      responses:
+        "200":
+          description: "successful operation"
+          
+  /commodities:
+    get:
+      tags:
+      - "commodities"
+      summary: "get all commodities"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+    post:
+      tags:
+      - "commodities"
+      summary: "post a commodity to database"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "name"
+        in: "query"
+        description: "the name of the commodity"
+        required: true
+        type: "string"
+      - name: "introduction"
+        in: "query"
+        description: "the introduction of the commodity"
+        required: true
+        type: "string"
+      - name: "picture"
+        in: "query"
+        description: "the url of the picture of the commodity"
+        required: true
+        type: "string"
+      - name: "price"
+        in: "query"
+        description: "the price of the commodity"
+        required: true
+        type: "float64"
+      responses:
+        "200":
+          description: "successful operation"
+  
+  /commodities/{commodityname}:
+    get:
+      tags:
+      - "commodities"
+      summary: "get a commodityInfo with commodityname"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+  /commodities/{commodityname}/comments:
+    get:
+      tags:
+      - "commodities"
+      summary: "get all comments of the commodity named commodityname"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+    post:
+      tags:
+      - "commodities"
+      summary: "post a comment to the commodityname to database"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "comment"
+        in: "query"
+        description: "the comment will be upload to database"
+        required: true
+        type: "model.Comment"
+      responses:
+        "200":
+          description: "successful operation"
+    patch:
+      tags:
+      - "commodities"
+      summary: "patch a comment to the commodityname to database"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "comment"
+        in: "query"
+        description: "the comment will be upload to database"
+        required: true
+        type: "model.Comment"
+      responses:
+        "200":
+          description: "successful operation"
+    delete:
+      tags:
+      - "commodities"
+      summary: "delete a comment from the commodityname to database"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "comment"
+        in: "query"
+        description: "the comment will be delete to database"
+        required: true
+        type: "model.Comment"
+      responses:
+        "200":
+          description: "successful operation"
+          
+  /picture:
+    get:
+      tags:
+      - "picture"
+      summary: "get a picture with the url of the picture"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "image"
+        in: "query"
+        description: "the url of the picture"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          
+  /picture/upload:
+    post:
+      tags:
+      - "picture"
+      summary: "upload a picture to the file system /picture with the url"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "image"
+        in: "query"
+        description: "the url of the picture"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  User:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+      balance:
+        type: "float64"
+    xml:
+      name: "User"
+  Commodity:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      introduction:
+        type: "string"
+      picture: 
+        type: "string"
+      price:
+        type: "float64"
+    xml:
+      name: "Commodity"
+  Comment:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      commodity:
+        type: "string"
+      commet:
+        type: "string"
+    xml:
+      name: "Comment"
+  Cart:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      commodities:
+        type: "[]Commoditity"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
